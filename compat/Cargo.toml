@@ -1,5 +1,5 @@
 [package]
-name = "rbus"
+name = "compat"
 version = "0.1.0"
 authors = ["LeeSmet <lee.smet@hotmail.com>"]
 edition = "2018"
@@ -7,11 +7,9 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-redis-async = "0.6"
-serde = { version = "1", features = ["derive"] }
+tokio = "0.2"
+rbus = { path = ".." }
+pretty_env_logger = "0.3"
 rmp-serde = "0.14"
 serde_bytes = "0.11"
-uuid = { version = "0.8", features = ["v4"] }
-tokio = { version = "0.2", features = ["rt-threaded", "macros"] }
-log = "0.4"
 async-trait = "0.1"
