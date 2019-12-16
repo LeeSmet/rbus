@@ -125,6 +125,12 @@ pub struct Response {
     pub error: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub struct RemoteError {
+    pub message: String,
+}
+
 #[async_trait]
 pub trait Handler {
     async fn dispatch(&self, request: &Request) -> Result<Response, error::ZbusError>;
@@ -153,7 +159,7 @@ impl<'a> Server<'a> {
 
     pub async fn run(&self) {
         loop {
-            log::info!("Loop iteration");
+            log::debug!("Loop iteration");
 
             let keys: Vec<String> = self
                 .handlers
@@ -197,6 +203,7 @@ impl<'a> Server<'a> {
 
             log::info!("Got a request: {:?}", req);
 
+            // this map access requires the key to be checked first
             let response = match self.handlers[&req.object].dispatch(&req).await {
                 Ok(r) => r,
                 Err(e) => {
